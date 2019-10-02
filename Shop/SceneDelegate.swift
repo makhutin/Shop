@@ -20,10 +20,28 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //        guard let _ = (scene as? UIWindowScene) else { return }
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
-            window.rootViewController = MainViewController()
+            let tabBarController = MainViewController()
+            let tabViewController1 = CategoryViewController()
+            let tabViewController2 = ShopListViewController()
+            tabViewController1.tabBarItem = UITabBarItem(title: "Category", image: nil, tag: 0)
+            tabViewController2.tabBarItem = UITabBarItem(title: "Category", image: nil, tag: 1)
+            let controllers = [tabViewController1,tabViewController2]
+            tabBarController.viewControllers = controllers
+            let navigationController = UINavigationController(rootViewController: tabBarController)
+            
+            window.rootViewController = navigationController
             self.window = window
             window.makeKeyAndVisible()
+            PersistanceData.shared.saveCategoryDataCount(count: 1)
+            
+            DataNow.shared.loadData(complite: {
+                new in
+                if new {
+                    tabViewController1.loadData()
+                }
+            })
         }
+
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

@@ -10,12 +10,21 @@ import UIKit
 
 class MainViewController: UITabBarController {
 
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let firstViewController = CategoryViewController()
-        firstViewController.tabBarItem = UITabBarItem(title: "Category", image: nil, tag: 0)
-        viewControllers = [firstViewController]
+//        let firstViewController = CategoryViewController()
+//        firstViewController.tabBarItem = UITabBarItem(title: "Category", image: nil, tag: 0)
+//        let secondViewController = ShopListViewController()
+//        secondViewController.tabBarItem = UITabBarItem(title: "test", image: nil, tag: 1)
+//        viewControllers = [firstViewController,secondViewController]
+//
+//
+        
+        
+        
+        
         // Do any additional setup after loading the view.
     }
     

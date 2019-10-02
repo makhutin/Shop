@@ -9,16 +9,57 @@
 import UIKit
 
 class CategoryViewController: UITableViewController {
+    
+    var data: [Category] = []
+    var first: Bool = true
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableView.reloadData()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        loadData()
+    }
+    
+    func loadData() {
+        data = []
+        let tempData = PersistanceData.shared.loadCategory()
+        for elem in tempData {
+            let cat = Category()
+            cat.iconImage = elem.iconImage
+            cat.id = elem.id
+            cat.name = elem.name
+            cat.sortOrder = elem.sortOrder
+            data.append(cat)
+        }
+        data.sort { (elem1, elem2) -> Bool in
+            return elem1.sortOrder < elem2.sortOrder
+        }
+        
+                self.tableView.reloadData()
+            
 
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+    }
+    
+    private func goToSubCat(id: Int) {
+        let vc = SubCategoryViewController()
+        let data = PersistanceData.shared.loadSubCategory(id: id)
+        vc.data = []
+        for elem in data {
+            let sub = SubCategory()
+            sub.iconImage = elem.iconImage
+            sub.id = elem.id
+            sub.idToSite = elem.idToSite
+            sub.name = elem.name
+            sub.sortOrder = elem.sortOrder
+            vc.data.append(sub)
+        }
+        vc.data.sort { (elem1, elem2) -> Bool in
+            return elem1.sortOrder < elem2.sortOrder
+        }
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 
     // MARK: - Table view data source
@@ -34,19 +75,31 @@ class CategoryViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 1
+        
+        return data.count > 0 ? data.count : 1
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = CategoryTableViewCell()
+        if data.count == 0 {
+            return cell
+        }
 //        cell.picture.image = UIImage(named: "rick")
-        cell.setText(text: "test")
+        let rowData = data[indexPath.row]
+        
+        cell.setText(text: rowData.name)
         cell.setPicture(picture: UIImage(named: "rick")!)
 
         // Configure the cell...
 
         return cell
     }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        goToSubCat(id: data[indexPath.row].id)
+    }
+    
+
 
     /*
     // Override to support conditional editing of the table view.

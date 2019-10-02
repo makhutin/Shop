@@ -15,6 +15,14 @@
 		789D677D2343783A00139F80 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789D677C2343783A00139F80 /* MainViewController.swift */; };
 		789D677F2343785500139F80 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789D677E2343785500139F80 /* CategoryViewController.swift */; };
 		789D678123437A7600139F80 /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789D678023437A7600139F80 /* CategoryTableViewCell.swift */; };
+		789D678423438D3A00139F80 /* ShopListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789D678323438D3A00139F80 /* ShopListViewController.swift */; };
+		789D678623438F9400139F80 /* ShopItemViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789D678523438F9400139F80 /* ShopItemViewCell.swift */; };
+		789D678B2344C75500139F80 /* roboto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 789D678A2344C75000139F80 /* roboto.ttf */; };
+		789D678D2344C9B900139F80 /* sf-pro.otf in Resources */ = {isa = PBXBuildFile; fileRef = 789D678C2344C9AC00139F80 /* sf-pro.otf */; };
+		789D679E2344CCF600139F80 /* DataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789D679D2344CCF600139F80 /* DataLoader.swift */; };
+		789D67A02344D88700139F80 /* PersistanceData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789D679F2344D88700139F80 /* PersistanceData.swift */; };
+		789D67A22344E15700139F80 /* DataNow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789D67A12344E15700139F80 /* DataNow.swift */; };
+		789D67A523451EC200139F80 /* SubCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789D67A423451EC200139F80 /* SubCategoryViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +36,14 @@
 		789D677C2343783A00139F80 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		789D677E2343785500139F80 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		789D678023437A7600139F80 /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
+		789D678323438D3A00139F80 /* ShopListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopListViewController.swift; sourceTree = "<group>"; };
+		789D678523438F9400139F80 /* ShopItemViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopItemViewCell.swift; sourceTree = "<group>"; };
+		789D678A2344C75000139F80 /* roboto.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = roboto.ttf; sourceTree = "<group>"; };
+		789D678C2344C9AC00139F80 /* sf-pro.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "sf-pro.otf"; sourceTree = "<group>"; };
+		789D679D2344CCF600139F80 /* DataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLoader.swift; sourceTree = "<group>"; };
+		789D679F2344D88700139F80 /* PersistanceData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistanceData.swift; sourceTree = "<group>"; };
+		789D67A12344E15700139F80 /* DataNow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataNow.swift; sourceTree = "<group>"; };
+		789D67A423451EC200139F80 /* SubCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubCategoryViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,14 +76,17 @@
 		789D675B2343418700139F80 /* Shop */ = {
 			isa = PBXGroup;
 			children = (
-				789D6782234387BC00139F80 /* CategoryView */,
-				789D675C2343418700139F80 /* AppDelegate.swift */,
-				789D675E2343418700139F80 /* SceneDelegate.swift */,
 				789D677C2343783A00139F80 /* MainViewController.swift */,
+				789D6782234387BC00139F80 /* CategoryView */,
+				789D67872344767200139F80 /* ShopListView */,
+				789D675C2343418700139F80 /* AppDelegate.swift */,
+				789D67A32344E15B00139F80 /* data */,
+				789D675E2343418700139F80 /* SceneDelegate.swift */,
 				789D67622343418700139F80 /* Main.storyboard */,
 				789D67652343418700139F80 /* Assets.xcassets */,
 				789D67672343418700139F80 /* LaunchScreen.storyboard */,
 				789D676A2343418700139F80 /* Info.plist */,
+				789D67892344C74900139F80 /* fonts */,
 			);
 			path = Shop;
 			sourceTree = "<group>";
@@ -75,10 +94,39 @@
 		789D6782234387BC00139F80 /* CategoryView */ = {
 			isa = PBXGroup;
 			children = (
-				789D678023437A7600139F80 /* CategoryTableViewCell.swift */,
 				789D677E2343785500139F80 /* CategoryViewController.swift */,
+				789D67A423451EC200139F80 /* SubCategoryViewController.swift */,
+				789D678023437A7600139F80 /* CategoryTableViewCell.swift */,
 			);
 			path = CategoryView;
+			sourceTree = "<group>";
+		};
+		789D67872344767200139F80 /* ShopListView */ = {
+			isa = PBXGroup;
+			children = (
+				789D678323438D3A00139F80 /* ShopListViewController.swift */,
+				789D678523438F9400139F80 /* ShopItemViewCell.swift */,
+			);
+			path = ShopListView;
+			sourceTree = "<group>";
+		};
+		789D67892344C74900139F80 /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				789D678C2344C9AC00139F80 /* sf-pro.otf */,
+				789D678A2344C75000139F80 /* roboto.ttf */,
+			);
+			path = fonts;
+			sourceTree = "<group>";
+		};
+		789D67A32344E15B00139F80 /* data */ = {
+			isa = PBXGroup;
+			children = (
+				789D67A12344E15700139F80 /* DataNow.swift */,
+				789D679F2344D88700139F80 /* PersistanceData.swift */,
+				789D679D2344CCF600139F80 /* DataLoader.swift */,
+			);
+			path = data;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -91,6 +139,7 @@
 				789D67552343418700139F80 /* Sources */,
 				789D67562343418700139F80 /* Frameworks */,
 				789D67572343418700139F80 /* Resources */,
+				789D679C2344CC2A00139F80 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -141,19 +190,50 @@
 			files = (
 				789D67692343418700139F80 /* LaunchScreen.storyboard in Resources */,
 				789D67662343418700139F80 /* Assets.xcassets in Resources */,
+				789D678D2344C9B900139F80 /* sf-pro.otf in Resources */,
 				789D67642343418700139F80 /* Main.storyboard in Resources */,
+				789D678B2344C75500139F80 /* roboto.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		789D679C2344CC2A00139F80 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/Alamofire.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Realm.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/RealmSwift.framework",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks\n\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		789D67552343418700139F80 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				789D67A22344E15700139F80 /* DataNow.swift in Sources */,
 				789D678123437A7600139F80 /* CategoryTableViewCell.swift in Sources */,
 				789D675D2343418700139F80 /* AppDelegate.swift in Sources */,
+				789D678423438D3A00139F80 /* ShopListViewController.swift in Sources */,
+				789D67A02344D88700139F80 /* PersistanceData.swift in Sources */,
+				789D67A523451EC200139F80 /* SubCategoryViewController.swift in Sources */,
+				789D678623438F9400139F80 /* ShopItemViewCell.swift in Sources */,
+				789D679E2344CCF600139F80 /* DataLoader.swift in Sources */,
 				789D677F2343785500139F80 /* CategoryViewController.swift in Sources */,
 				789D675F2343418700139F80 /* SceneDelegate.swift in Sources */,
 				789D677D2343783A00139F80 /* MainViewController.swift in Sources */,
@@ -302,6 +382,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MZTVVF39C7;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Shop/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -320,6 +404,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MZTVVF39C7;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Shop/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
