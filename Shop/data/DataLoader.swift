@@ -8,7 +8,7 @@
 
 import Foundation
 import Alamofire
-
+import UIKit
 
 /**
 Load data from internet and sent to (PersistanceData is Realm)
@@ -22,9 +22,6 @@ class DataLoader {
         Alamofire.request(url).validate().responseJSON(completionHandler: {
             response in
             if response.result.isSuccess {
-                if self.isNew(count: response.result.debugDescription.count) {
-                    complete(false)
-                }else{
                     guard let jsonDict = response.result.value as? NSDictionary
                     else { return }
                     for (key,value) in jsonDict {
@@ -32,51 +29,51 @@ class DataLoader {
                         guard let jsonCategory = value as? NSDictionary else { return }
                         self.sendCategory(category: jsonCategory, id: id)
                     }
-                }
-                self.saveCount(count: response.result.debugDescription.count)
-                complete(true)
-                }
-                
-            })
-                
-        }
+                    complete(true)
+            }else{
+                complete(false)
+            }
+        })
+    }
+    
+    func getImageFromWeb(_ urlString: String, closure: @escaping (UIImage?) -> ()) {
+        guard let url = URL(string: urlString) else { return closure(nil) }
+    
+        let task = URLSession(configuration: .default).dataTask(with: url) { (data, response, error) in
+            guard error == nil else {
+                return closure(nil)
+            }
+            guard response != nil else {
+                return closure(nil)
+            }
+            guard data != nil else {
+                return closure(nil)
+            }
+            DispatchQueue.main.async {
+                closure(UIImage(data: data!))
+            }
+        }; task.resume()
+    }
+
     
 }
 
 //send data to Persistance class (realm)
 extension DataLoader {
 
-    private func saveCount(count: Int) {
-        PersistanceData.shared.saveCategoryDataCount(count: count)
-    }
-    
-    
-    private func isNew(count: Int) -> Bool {
-        if PersistanceData.shared.isNewData(count: count) {
-            return true
-        }
-        return false
-    }
-    
     private func sendCategory(category: NSDictionary, id: Int) {
         guard let img1 = category["iconImage"] as? String,
         let name = category["name"] as? String,
         let sort = category["sortOrder"] as? String,
         let cat = category["subcategories"] as? NSArray
             else { return }
-        let newCategory = Category()
-        newCategory.id = id
-        newCategory.iconImage = img1
-        newCategory.name = name
-        newCategory.sortOrder = Int(sort) ?? 999
-        
-        if cat.count == 0 {
-            PersistanceData.shared.deleteCategory(id: id)
-            return
-        }
-        PersistanceData.shared.saveCategory(category: newCategory)
+        let newCategory = Category(id: id,
+                                   iconImage: img1,
+                                   name: name,
+                                   sortOrder: Int(sort) ?? 999)
+        if cat.count == 0 { return }
+        DataNow.shared.addCategory(category: newCategory)
         for elem in cat {
-            
             if let tempSubCategory = elem as? NSDictionary {
                 sendSubCategory(subCategory: tempSubCategory, id: id)
             }
@@ -85,13 +82,15 @@ extension DataLoader {
     }
     
     private func sendSubCategory(subCategory: NSDictionary, id: Int) {
-        let newSubCategory = SubCategory()
-        newSubCategory.id = id
-        newSubCategory.idToSite = Int(subCategory["id"] as? String ?? "") ?? 0
-        newSubCategory.name = subCategory["name"] as! String
-        newSubCategory.sortOrder = Int(subCategory["sortOrder"] as? String ?? "") ?? 999
-        PersistanceData.shared.saveSubCategory(subCategory: newSubCategory)
+        let newSubCategory = SubCategory(id: id,
+                                         iconImage: subCategory["iconImage"] as? String ?? "",
+                                         idToSite: Int(subCategory["id"] as? String ?? "") ?? 0,
+                                         name: subCategory["name"] as! String,
+                                         sortOrder: Int(subCategory["sortOrder"] as? String ?? "") ?? 999)
+        DataNow.shared.addSubCategory(subCategory: newSubCategory)
     }
+    
+    
             
 
 }

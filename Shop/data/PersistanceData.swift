@@ -6,26 +6,20 @@
 //  Copyright © 2019 Mahutin Aleksei. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import RealmSwift
 
-class Category: Object {
-    @objc dynamic var id: Int = 0
-    @objc dynamic var iconImage: String = ""
-    @objc dynamic var name: String = ""
-    @objc dynamic var sortOrder: Int = 999
-}
 
-class SubCategory: Object {
-    @objc dynamic var id: Int = 0
-    @objc dynamic var iconImage: String = ""
-    @objc dynamic var idToSite: Int = 0
-    @objc dynamic var name: String = ""
-    @objc dynamic var sortOrder: Int = 999
-}
 
 class CategoryDataCount: Object {
     @objc dynamic var count: Int = 0
+}
+
+class DataImage: Object {
+    @objc dynamic var url:Int = 0
+    @objc dynamic var data: Data = Data()
+    @objc dynamic var date: Date = Date()
+    @objc dynamic var notSourse: Bool = false
 }
 /**
 Data load, save
@@ -36,86 +30,79 @@ class PersistanceData {
     
     private let realm = try! Realm()
     
-}
-
-// save and compasion of result.count
-extension PersistanceData {
+    //of days
+    private let updateTimeForImage = 3
     
-    func saveCategoryDataCount(count: Int) {
-        let oldData = realm.objects(CategoryDataCount.self)
-        let newData = CategoryDataCount()
-        newData.count = count
+    func saveImage(image: UIImage,url: String) {
+        let oldData = realm.objects(DataImage.self).filter("url = \(url.hashValue)")
+        let data = DataImage()
+        data.data = image.pngData()!
+        data.date = Date()
+        data.notSourse = false
+        data.url = url.hashValue
         try! realm.write {
-            for data in oldData {
-                realm.delete(data)
+            for elem in oldData {
+                realm.delete(elem)
             }
-            realm.add(newData)
+            realm.add(data)
         }
     }
     
-    func isNewData(count: Int) -> Bool {
-        let oldData = realm.objects(CategoryDataCount.self).first
-        if oldData?.count == count {
-            return true
-        }else {
+    func saveFailData(url: String) {
+        let oldData = realm.objects(DataImage.self).filter("url = \(url.hashValue)")
+        let data = DataImage()
+        data.data = Data()
+        data.date = Date()
+        data.notSourse = true
+        data.url = url.hashValue
+        try! realm.write {
+            for elem in oldData {
+                realm.delete(elem)
+            }
+            realm.add(data)
+        }
+    }
+    
+    func loadImage(url: String) -> UIImage? {
+        let oldData = realm.objects(DataImage.self).filter("url = \(url.hashValue)").first
+        guard let notSource = oldData?.notSourse else { return nil }
+        if notSource  {
+            return UIImage(named: "NoImg")
+        }else{
+            if let data = oldData?.data {
+                let now = Date().timeIntervalSince1970
+                let defirence = Date(timeIntervalSince1970: now - oldData!.date.timeIntervalSince1970)
+                let calendar = Calendar.current
+                if calendar.component(.day, from: defirence) > updateTimeForImage {
+                    print("is so old")
+                    return nil }
+                let image = UIImage(data: data)
+            return image
+                }
+        }
+        return nil
+    }
+    
+    /**
+     Delete data if date > PersistanceData.updateTimeForImage
+    */
+    func updateImage() {
+        let oldData = realm.objects(DataImage.self)
+        let dataForDel = oldData.filter { (data) -> Bool in
+            let now = Date().timeIntervalSince1970
+            let defirence = Date(timeIntervalSince1970: now - data.date.timeIntervalSince1970)
+            let calendar = Calendar.current
+            if calendar.component(.day, from: defirence) > self.updateTimeForImage {
+                return true }
             return false
         }
-    }
-}
-
-// load,save,del category
-extension PersistanceData {
-    
-    func loadCategory() -> [Category] {
-        var result = [Category]()
-        let oldData = realm.objects(Category.self)
-        for elem in oldData {
-            result.append(elem)
-        }
-        return result
-    }
-    
-    
-    func saveCategory(category: Category) {
-        let oldData = realm.objects(Category.self).filter("id == \(category.id)")
         try! realm.write {
-            for data in oldData {
+            for data in dataForDel {
                 realm.delete(data)
             }
-            realm.add(category)
         }
     }
     
-    func deleteCategory(id: Int) {
-        let oldData = realm.objects(Category.self).filter("id == \(id)")
-        try! realm.write {
-        for data in oldData {
-            realm.delete(data)
-            }
-        }
-        
-    }
 }
 
-//load save subCategory
-extension PersistanceData {
-    
-    func saveSubCategory(subCategory: SubCategory) {
-        let oldData = realm.objects(SubCategory.self).filter("idToSite == \(subCategory.idToSite)")
-        try! realm.write {
-            for data in oldData {
-                realm.delete(data)
-            }
-            realm.add(subCategory)
-        }
-    }
-    
-    func loadSubCategory(id: Int) -> [SubCategory] {
-        let oldData = realm.objects(SubCategory.self).filter("id == \(id)")
-        var result = [SubCategory]()
-        for data in oldData {
-            result.append(data)
-        }
-        return result
-    }
-}
+

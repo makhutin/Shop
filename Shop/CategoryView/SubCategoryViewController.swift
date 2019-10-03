@@ -11,6 +11,8 @@ import UIKit
 class SubCategoryViewController: UITableViewController {
     
     var data: [SubCategory] = []
+    var id: Int = 0
+    var nameCategory: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +43,8 @@ class SubCategoryViewController: UITableViewController {
         let rowData = data[indexPath.row]
         
         cell.setText(text: rowData.name)
-        cell.setPicture(picture: UIImage(named: "rick")!)
+        cell.setPicture(url: rowData.iconImage )
+        
 
 
         return cell

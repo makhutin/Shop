@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -32,8 +33,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window.rootViewController = navigationController
             self.window = window
             window.makeKeyAndVisible()
-            PersistanceData.shared.saveCategoryDataCount(count: 1)
             
+            
+            PersistanceData.shared.updateImage()
             DataNow.shared.loadData(complite: {
                 new in
                 if new {
