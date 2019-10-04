@@ -8,13 +8,15 @@
 
 import UIKit
 
-class ShopItemViewCell: UICollectionViewCell {
+class ShopItemViewCell: UICollectionViewCell, InterfaceIsDark {
     
     private let pic = ImageShopItemCell()
     private let name = UILabel()
     private let price = UILabel()
     private let button = UIButton()
     private let indicator = UIActivityIndicatorView()
+    
+    var intefaceIsDark: Bool { return traitCollection.userInterfaceStyle == .dark }
     
     override func didMoveToSuperview() {
         
@@ -25,7 +27,7 @@ class ShopItemViewCell: UICollectionViewCell {
             elem.translatesAutoresizingMaskIntoConstraints = false
         }
         
-        self.backgroundColor = .white
+        self.backgroundColor = (traitCollection.userInterfaceStyle == .dark) ? .black : .white
         
         constraintsInit()
         buttonInit()
@@ -64,12 +66,21 @@ class ShopItemViewCell: UICollectionViewCell {
     }
     
     private func nameInit() {
-        name.font = UIFont(name: "Sf-pro", size: 11)
+        name.font = UIFont.systemFont(ofSize: 11)
+        name.numberOfLines = 2
+        name.adjustsFontSizeToFitWidth = true
+        name.minimumScaleFactor = 0.5
         name.textColor = UIColor(displayP3Red: 75/255, green: 75/255, blue: 75/255, alpha: 1)
+        if intefaceIsDark {
+            name.textColor = UIColor.white.withAlphaComponent(0.7)
+        }
     }
     
     private func priceInit() {
-        price.font = UIFont(name: "Sf-pro", size: 16)
+        price.adjustsFontSizeToFitWidth = true
+        price.minimumScaleFactor = 0.5
+        price.font = UIFont.systemFont(ofSize: 16)
+        
     }
     
     func setPrice(price: String) {

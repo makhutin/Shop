@@ -8,10 +8,10 @@
 
 import UIKit
 
-//private let reuseIdentifier = "Cell"
-
 @IBDesignable
-class ShopListViewController: UIViewController {
+class ShopListViewController: UIViewController, InterfaceIsDark {
+    
+    var intefaceIsDark: Bool { return traitCollection.userInterfaceStyle == .dark }
     
     var collectionView: UICollectionView! = nil
     let reuseIdentifier = "cell"
@@ -24,18 +24,15 @@ class ShopListViewController: UIViewController {
         flowLayoutInit()
         collectionInit()
         
-        self.view.backgroundColor = .white
-        self.collectionView.backgroundColor = .white
+        self.view.backgroundColor = intefaceIsDark ? .black : .white
+        self.collectionView.backgroundColor = self.view.backgroundColor
         
-        
-        
-        // Do any additional setup after loading the view.
     }
     
     private func flowLayoutInit() {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.itemSize = CGSize(width: self.view.frame.width / 2 - 20,
-                                     height: self.view.frame.height / 3)
+                                     height: self.view.frame.height / 2.3)
         flowLayout.scrollDirection = .vertical
         flowLayout.minimumInteritemSpacing = 4
         flowLayout.minimumLineSpacing = 0
@@ -57,10 +54,12 @@ class ShopListViewController: UIViewController {
         collectionView.register(ShopItemViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         self.collectionView.reloadData()
     }
-
-
     
-
+    private func goToCartItem() {
+        let vc = CartItemController()
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
 }
 
 extension ShopListViewController: UICollectionViewDelegate,UICollectionViewDataSource {
@@ -82,7 +81,7 @@ extension ShopListViewController: UICollectionViewDelegate,UICollectionViewDataS
         let cellData = data[indexPath.item]
         
         cell.setName(name: cellData.name)
-        cell.setPrice(price: "")
+        cell.setPrice(price: "\(cellData.price!) ₽")
         cell.setPicture(url: cellData.mainImage)
 
         return cell
@@ -103,11 +102,7 @@ extension ShopListViewController: UICollectionViewDelegate,UICollectionViewDataS
                 cell.backgroundColor = .white
             })
         }
-        
-       
-        if let index = indexPath {
-          print("Got clicked on index: \(index)!")
-        }
+        goToCartItem()
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

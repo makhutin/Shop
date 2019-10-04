@@ -23,7 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let window = UIWindow(windowScene: windowScene)
             let tabBarController = MainViewController()
             let tabViewController1 = CategoryViewController()
-            let tabViewController2 = ShopListViewController()
+            let tabViewController2 = CartItemController()
             tabViewController1.tabBarItem = UITabBarItem(title: "Category", image: nil, tag: 0)
             tabViewController2.tabBarItem = UITabBarItem(title: "Category", image: nil, tag: 1)
             let controllers = [tabViewController1,tabViewController2]

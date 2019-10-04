@@ -9,7 +9,10 @@
 import UIKit
 
 @IBDesignable
-class CategoryTableViewCell: UITableViewCell {
+class CategoryTableViewCell: UITableViewCell, InterfaceIsDark {
+    
+    var intefaceIsDark: Bool { return traitCollection.userInterfaceStyle == .dark }
+    
     
     private let picture = UIImageView()
     private let label = UILabel()
@@ -28,6 +31,7 @@ class CategoryTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     override func didMoveToSuperview() {
+        label.font = UIFont(name: "Sfpro", size: 16)
         label.textAlignment = .center
         picture.contentMode = .scaleAspectFit
         for elem in [picture,label,indicator,loading] {
@@ -65,7 +69,11 @@ class CategoryTableViewCell: UITableViewCell {
         //try load from realm
         if let oldImage = PersistanceData.shared.loadImage(url: url) {
             self.indicator.stopAnimating()
-            self.picture.image = oldImage
+            if intefaceIsDark {
+                self.picture.image = oldImage.inverseImage(cgResult: false)
+            }else{
+                self.picture.image = oldImage
+            }
             self.picture.layoutIfNeeded()
             return
         }
@@ -79,6 +87,9 @@ class CategoryTableViewCell: UITableViewCell {
             }else{
                 self.picture.image = UIImage(named: "NoImg")
                 PersistanceData.shared.saveFailData(url: url)
+            }
+            if self.intefaceIsDark {
+                self.picture.image = self.picture.image!.inverseImage(cgResult: false)
             }
             self.indicator.stopAnimating()
             self.picture.layoutIfNeeded()
@@ -104,4 +115,17 @@ class CategoryTableViewCell: UITableViewCell {
     }
 
     
+}
+
+extension UIImage {
+func inverseImage(cgResult: Bool) -> UIImage? {
+    let coreImage = UIKit.CIImage(image: self)
+    guard let filter = CIFilter(name: "CIColorInvert") else { return nil }
+    filter.setValue(coreImage, forKey: kCIInputImageKey)
+    guard let result = filter.value(forKey: kCIOutputImageKey) as? UIKit.CIImage else { return nil }
+    if cgResult { // I've found that UIImage's that are based on CIImages don't work with a lot of calls properly
+        return UIImage(cgImage: CIContext(options: nil).createCGImage(result, from: result.extent)!)
+    }
+    return UIImage(ciImage: result)
+  }
 }

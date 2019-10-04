@@ -19,3 +19,8 @@ class MainViewController: UITabBarController {
     
 
 }
+
+protocol InterfaceIsDark {
+    var intefaceIsDark: Bool { get }
+}
+

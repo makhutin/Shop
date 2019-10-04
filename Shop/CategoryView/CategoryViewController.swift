@@ -15,6 +15,7 @@ class CategoryViewController: UITableViewController {
     
 
     override func viewDidLoad() {
+        self.tableView.isUserInteractionEnabled = false
         super.viewDidLoad()
 
     }
@@ -76,6 +77,10 @@ class CategoryViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         goToSubCat(id: data[indexPath.row].id)
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        self.tableView.isUserInteractionEnabled = true
     }
     
 }

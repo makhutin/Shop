@@ -115,7 +115,7 @@ extension DataLoader {
     private func sendShopItem(shopItems: NSDictionary, id:String) {
         let newShopItems = ShopItem(mainImage: shopItems["mainImage"] as? String ?? "",
                                     name: shopItems["name"] as? String ?? "",
-                                    price: Int(shopItems["price"] as? String ?? ""),
+                                    price: Int(Double(shopItems["price"] as? String ?? "")!),
                                     id: id,
                                     sortOrder: Int(shopItems["sortOrder"] as? String ?? "") ?? 999)
         DataNow.shared.addShopItem(shopItem: newShopItems)

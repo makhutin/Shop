@@ -16,6 +16,7 @@ class SubCategoryViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tableView.isUserInteractionEnabled = false
         self.tableView.reloadData()
 
     }
@@ -29,6 +30,7 @@ class SubCategoryViewController: UITableViewController {
                 return elem1.sortOrder < elem2.sortOrder
             }
             self.navigationController?.pushViewController(vc, animated: true)
+            self.tableView.isUserInteractionEnabled = true
             complite()
         })
     }
@@ -67,10 +69,13 @@ class SubCategoryViewController: UITableViewController {
             cell.load(isLoad: true)
             goToItems(id: data[indexPath.row].idToSite,complite: {
                 cell.load(isLoad: false)
-                self.tableView.isUserInteractionEnabled = true
             })
         }
 
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        self.tableView.isUserInteractionEnabled = true
     }
 
 }
