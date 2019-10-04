@@ -11,18 +11,27 @@ import Foundation
 
 
 struct Category {
-    var id: Int = 0
-    var iconImage: String = ""
-    var name: String = ""
-    var sortOrder: Int = 999
+    let id: Int
+    let iconImage: String
+    let name: String
+    let sortOrder: Int
 }
 
 struct SubCategory {
-    var id: Int = 0
-    var iconImage: String = ""
-    var idToSite: Int = 0
-    var name: String = ""
-    var sortOrder: Int = 999
+    let id: Int
+    let iconImage: String
+    let idToSite: Int
+    let name: String
+    let sortOrder: Int
+    let type: String
+}
+
+struct ShopItem {
+    let mainImage: String
+    let name: String
+    let price: Int?
+    let id: String
+    let sortOrder: Int
 }
 
 
@@ -51,6 +60,7 @@ class DataNow {
     
     private var category: [Category] = []
     private var subCategory: [SubCategory] = []
+    private var shopItems: [ShopItem] = []
     
     func addCategory(category: Category) {
         let newArray = self.category.filter { $0.id == category.id }
@@ -70,6 +80,19 @@ class DataNow {
     
     func loadSubCatgory(id: Int) -> [SubCategory] {
         return subCategory.filter { $0.id == id }
+    }
+    
+    func addShopItem(shopItem: ShopItem) {
+        shopItems.append(shopItem)
+    }
+    
+
+    func loadShopList() -> [ShopItem] {
+        return self.shopItems
+    }
+    
+    func clearShopList() {
+        self.shopItems = []
     }
     
     

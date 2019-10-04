@@ -10,23 +10,27 @@ import UIKit
 
 class ShopItemViewCell: UICollectionViewCell {
     
-    private let pic = UIImageView()
+    private let pic = ImageShopItemCell()
     private let name = UILabel()
     private let price = UILabel()
     private let button = UIButton()
+    private let indicator = UIActivityIndicatorView()
     
     override func didMoveToSuperview() {
-        for elem in [name,pic,price,button] {
+        
+        indicator.stopAnimating()
+
+        for elem in [name,pic,price,button,indicator] {
             addSubview(elem)
             elem.translatesAutoresizingMaskIntoConstraints = false
         }
         
+        self.backgroundColor = .white
         
         constraintsInit()
         buttonInit()
         nameInit()
         priceInit()
-        picInit()
     }
     
     private func constraintsInit() {
@@ -38,6 +42,8 @@ class ShopItemViewCell: UICollectionViewCell {
             pic.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             pic.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             pic.heightAnchor.constraint(equalTo: pic.widthAnchor),
+            indicator.centerXAnchor.constraint(equalTo: pic.centerXAnchor),
+            indicator.centerYAnchor.constraint(equalTo: pic.centerYAnchor),
             button.topAnchor.constraint(equalTo: pic.bottomAnchor, constant: 4),
             button.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -14),
             button.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -7),
@@ -49,9 +55,6 @@ class ShopItemViewCell: UICollectionViewCell {
         ])
     }
     
-    private func picInit() {
-        pic.contentMode = .scaleAspectFit
-    }
     
     private func buttonInit() {
         button.setTitle("купить", for: .normal)
@@ -79,10 +82,43 @@ class ShopItemViewCell: UICollectionViewCell {
         self.name.layoutIfNeeded()
     }
     
-    func setImage(image: UIImage) {
-        pic.image = image
-        pic.layoutIfNeeded()
+    
+    func setPicture(url: String) {
+        pic.isHidden = true
+        indicator.startAnimating()
+        //try load from realm
+        if let oldImage = PersistanceData.shared.loadImage(url: url) {
+            self.indicator.stopAnimating()
+            self.pic.picView.image = oldImage
+            setupPic()
+            return
+        }
+        
+        //try load from network
+        DataLoader.shared.getImageFromWeb(DataNow.shared.url + url, closure: {
+            image in
+            if image != nil {
+                self.pic.picView.image = image!
+                PersistanceData.shared.saveImage(image: image!, url: url)
+            }else{
+                self.pic.picView.image = UIImage(named: "NoImg")
+                PersistanceData.shared.saveFailData(url: url)
+            }
+            self.setupPic()
+        })
+    }
+    
+    private func setupPic() {
+        self.pic.isHidden = false
+        self.indicator.stopAnimating()
+        self.pic.clipsToBounds = true
+        self.pic.layoutIfNeeded()
+        self.pic.layer.shouldRasterize = true
+        self.pic.layer.rasterizationScale = UIScreen.main.scale
     }
     
     
 }
+
+
+

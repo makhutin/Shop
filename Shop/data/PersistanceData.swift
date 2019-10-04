@@ -34,12 +34,12 @@ class PersistanceData {
     private let updateTimeForImage = 3
     
     func saveImage(image: UIImage,url: String) {
-        let oldData = realm.objects(DataImage.self).filter("url = \(url.hashValue)")
+        let oldData = realm.objects(DataImage.self).filter("url = \(url.djb2hash)")
         let data = DataImage()
         data.data = image.pngData()!
         data.date = Date()
         data.notSourse = false
-        data.url = url.hashValue
+        data.url = url.djb2hash
         try! realm.write {
             for elem in oldData {
                 realm.delete(elem)
@@ -49,12 +49,12 @@ class PersistanceData {
     }
     
     func saveFailData(url: String) {
-        let oldData = realm.objects(DataImage.self).filter("url = \(url.hashValue)")
+        let oldData = realm.objects(DataImage.self).filter("url = \(url.djb2hash)")
         let data = DataImage()
         data.data = Data()
         data.date = Date()
         data.notSourse = true
-        data.url = url.hashValue
+        data.url = url.djb2hash
         try! realm.write {
             for elem in oldData {
                 realm.delete(elem)
@@ -64,7 +64,7 @@ class PersistanceData {
     }
     
     func loadImage(url: String) -> UIImage? {
-        let oldData = realm.objects(DataImage.self).filter("url = \(url.hashValue)").first
+        let oldData = realm.objects(DataImage.self).filter("url = \(url.djb2hash)").first
         guard let notSource = oldData?.notSourse else { return nil }
         if notSource  {
             return UIImage(named: "NoImg")
@@ -98,6 +98,7 @@ class PersistanceData {
         }
         try! realm.write {
             for data in dataForDel {
+                print("del")
                 realm.delete(data)
             }
         }
@@ -106,3 +107,11 @@ class PersistanceData {
 }
 
 
+extension String {
+    var djb2hash: Int {
+        let unicodeScalars = self.unicodeScalars.map { $0.value }
+        return unicodeScalars.reduce(5381) {
+            ($0 << 5) &+ $0 &+ Int($1)
+        }
+    }
+}

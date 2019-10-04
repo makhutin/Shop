@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		789D675D2343418700139F80 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789D675C2343418700139F80 /* AppDelegate.swift */; };
 		789D675F2343418700139F80 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789D675E2343418700139F80 /* SceneDelegate.swift */; };
-		789D67642343418700139F80 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 789D67622343418700139F80 /* Main.storyboard */; };
 		789D67662343418700139F80 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 789D67652343418700139F80 /* Assets.xcassets */; };
 		789D67692343418700139F80 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 789D67672343418700139F80 /* LaunchScreen.storyboard */; };
 		789D677D2343783A00139F80 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789D677C2343783A00139F80 /* MainViewController.swift */; };
@@ -23,13 +22,13 @@
 		789D67A02344D88700139F80 /* PersistanceData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789D679F2344D88700139F80 /* PersistanceData.swift */; };
 		789D67A22344E15700139F80 /* DataNow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789D67A12344E15700139F80 /* DataNow.swift */; };
 		789D67A523451EC200139F80 /* SubCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789D67A423451EC200139F80 /* SubCategoryViewController.swift */; };
+		789D67C723476E1800139F80 /* ImageShopItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789D67C623476E1800139F80 /* ImageShopItemCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		789D67592343418700139F80 /* Shop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Shop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		789D675C2343418700139F80 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		789D675E2343418700139F80 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		789D67632343418700139F80 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		789D67652343418700139F80 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		789D67682343418700139F80 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		789D676A2343418700139F80 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -44,6 +43,7 @@
 		789D679F2344D88700139F80 /* PersistanceData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistanceData.swift; sourceTree = "<group>"; };
 		789D67A12344E15700139F80 /* DataNow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataNow.swift; sourceTree = "<group>"; };
 		789D67A423451EC200139F80 /* SubCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubCategoryViewController.swift; sourceTree = "<group>"; };
+		789D67C623476E1800139F80 /* ImageShopItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageShopItemCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,7 +82,6 @@
 				789D675C2343418700139F80 /* AppDelegate.swift */,
 				789D67A32344E15B00139F80 /* data */,
 				789D675E2343418700139F80 /* SceneDelegate.swift */,
-				789D67622343418700139F80 /* Main.storyboard */,
 				789D67652343418700139F80 /* Assets.xcassets */,
 				789D67672343418700139F80 /* LaunchScreen.storyboard */,
 				789D676A2343418700139F80 /* Info.plist */,
@@ -105,7 +104,7 @@
 			isa = PBXGroup;
 			children = (
 				789D678323438D3A00139F80 /* ShopListViewController.swift */,
-				789D678523438F9400139F80 /* ShopItemViewCell.swift */,
+				789D67C82347708F00139F80 /* cell */,
 			);
 			path = ShopListView;
 			sourceTree = "<group>";
@@ -127,6 +126,15 @@
 				789D679D2344CCF600139F80 /* DataLoader.swift */,
 			);
 			path = data;
+			sourceTree = "<group>";
+		};
+		789D67C82347708F00139F80 /* cell */ = {
+			isa = PBXGroup;
+			children = (
+				789D67C623476E1800139F80 /* ImageShopItemCell.swift */,
+				789D678523438F9400139F80 /* ShopItemViewCell.swift */,
+			);
+			path = cell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -191,7 +199,6 @@
 				789D67692343418700139F80 /* LaunchScreen.storyboard in Resources */,
 				789D67662343418700139F80 /* Assets.xcassets in Resources */,
 				789D678D2344C9B900139F80 /* sf-pro.otf in Resources */,
-				789D67642343418700139F80 /* Main.storyboard in Resources */,
 				789D678B2344C75500139F80 /* roboto.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -232,6 +239,7 @@
 				789D678423438D3A00139F80 /* ShopListViewController.swift in Sources */,
 				789D67A02344D88700139F80 /* PersistanceData.swift in Sources */,
 				789D67A523451EC200139F80 /* SubCategoryViewController.swift in Sources */,
+				789D67C723476E1800139F80 /* ImageShopItemCell.swift in Sources */,
 				789D678623438F9400139F80 /* ShopItemViewCell.swift in Sources */,
 				789D679E2344CCF600139F80 /* DataLoader.swift in Sources */,
 				789D677F2343785500139F80 /* CategoryViewController.swift in Sources */,
@@ -243,14 +251,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		789D67622343418700139F80 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				789D67632343418700139F80 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		789D67672343418700139F80 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

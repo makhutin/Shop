@@ -14,6 +14,7 @@ class CategoryTableViewCell: UITableViewCell {
     private let picture = UIImageView()
     private let label = UILabel()
     private let indicator = UIActivityIndicatorView()
+    private let loading = UIActivityIndicatorView()
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -29,16 +30,14 @@ class CategoryTableViewCell: UITableViewCell {
     override func didMoveToSuperview() {
         label.textAlignment = .center
         picture.contentMode = .scaleAspectFit
-        for elem in [picture,label,indicator] {
+        for elem in [picture,label,indicator,loading] {
             addSubview(elem)
+            elem.translatesAutoresizingMaskIntoConstraints = false
         }
         setConstraint()
     }
     
     private func setConstraint() {
-        picture.translatesAutoresizingMaskIntoConstraints = false
-        label.translatesAutoresizingMaskIntoConstraints = false
-        indicator.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             self.heightAnchor.constraint(greaterThanOrEqualToConstant: 80),
             picture.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 20),
@@ -50,7 +49,9 @@ class CategoryTableViewCell: UITableViewCell {
             label.leadingAnchor.constraint(equalTo: picture.trailingAnchor, constant: 16),
             label.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -55),
             label.topAnchor.constraint(greaterThanOrEqualTo: self.contentView.topAnchor, constant: 32),
-            label.bottomAnchor.constraint(lessThanOrEqualTo: self.contentView.bottomAnchor, constant: -32)
+            label.bottomAnchor.constraint(lessThanOrEqualTo: self.contentView.bottomAnchor, constant: -32),
+            loading.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
+            loading.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor)
         ])
     }
     func setText(text: String) {
@@ -59,6 +60,7 @@ class CategoryTableViewCell: UITableViewCell {
     }
     
     func setPicture(url: String) {
+        indicator.isHidden = false
         indicator.startAnimating()
         //try load from realm
         if let oldImage = PersistanceData.shared.loadImage(url: url) {
@@ -72,19 +74,33 @@ class CategoryTableViewCell: UITableViewCell {
         DataLoader.shared.getImageFromWeb(DataNow.shared.url + url, closure: {
             image in
             if image != nil {
-                self.indicator.stopAnimating()
                 self.picture.image = image!
-                self.picture.layoutIfNeeded()
                 PersistanceData.shared.saveImage(image: image!, url: url)
             }else{
-                self.indicator.stopAnimating()
                 self.picture.image = UIImage(named: "NoImg")
-                self.picture.layoutIfNeeded()
                 PersistanceData.shared.saveFailData(url: url)
             }
+            self.indicator.stopAnimating()
+            self.picture.layoutIfNeeded()
         })
-        
-
+    }
+    
+    func load(isLoad: Bool) {
+        switch isLoad {
+        case true:
+            for elem in [picture,label,indicator] {
+                elem.isHidden = true
+            }
+            loading.startAnimating()
+            loading.isHidden = false
+            
+        case false:
+            for elem in [picture,label] {
+                elem.isHidden = false
+            }
+            loading.stopAnimating()
+            loading.isHidden = true
+        }
     }
 
     
