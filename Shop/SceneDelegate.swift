@@ -12,6 +12,11 @@ import RealmSwift
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    var navigationController: UINavigationController?
+    let tabBarController = MainViewController()
+    let tabViewController1 = CategoryViewController()
+    let tabViewController2 = CartItemController()
+    
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -21,15 +26,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //        guard let _ = (scene as? UIWindowScene) else { return }
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
-            let tabBarController = MainViewController()
-            let tabViewController1 = CategoryViewController()
-            let tabViewController2 = CartItemController()
+            
             tabViewController1.tabBarItem = UITabBarItem(title: "Category", image: nil, tag: 0)
             tabViewController2.tabBarItem = UITabBarItem(title: "Category", image: nil, tag: 1)
             let controllers = [tabViewController1,tabViewController2]
             tabBarController.viewControllers = controllers
-            let navigationController = UINavigationController(rootViewController: tabBarController)
-            
+            navigationController = UINavigationController(rootViewController: tabBarController)
+
             window.rootViewController = navigationController
             self.window = window
             window.makeKeyAndVisible()
@@ -39,7 +42,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             DataNow.shared.loadData(complite: {
                 new in
                 if new {
-                    tabViewController1.loadData()
+                    self.tabViewController1.loadData()
                 }
             })
         }

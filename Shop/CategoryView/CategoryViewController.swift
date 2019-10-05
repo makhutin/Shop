@@ -22,6 +22,7 @@ class CategoryViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         loadData()
+        self.navigationController?.isNavigationBarHidden = true
     }
     
     func loadData() {

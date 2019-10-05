@@ -55,21 +55,21 @@ class DataLoader {
     
     func getImageFromWeb(_ urlString: String, closure: @escaping (UIImage?) -> ()) {
         guard let url = URL(string: urlString) else { return closure(nil) }
-    
-        let task = URLSession(configuration: .default).dataTask(with: url) { (data, response, error) in
-            guard error == nil else {
+        Alamofire.request(url).validate().responseData(completionHandler: {
+            data in
+            guard data.error == nil else {
                 return closure(nil)
             }
-            guard response != nil else {
+            guard data.response != nil else {
                 return closure(nil)
             }
-            guard data != nil else {
+            guard data.data != nil else {
                 return closure(nil)
             }
             DispatchQueue.main.async {
-                closure(UIImage(data: data!))
+                closure(UIImage(data: data.data!))
             }
-        }; task.resume()
+        })
     }
 
     
@@ -113,11 +113,23 @@ extension DataLoader {
     }
     
     private func sendShopItem(shopItems: NSDictionary, id:String) {
-        let newShopItems = ShopItem(mainImage: shopItems["mainImage"] as? String ?? "",
+        var images = [String]()
+        images.append(shopItems["mainImage"] as? String ?? "")
+        guard let productsImage = shopItems["productImages"] as? NSArray else { return }
+        for elem in productsImage {
+            guard let data = elem as? NSDictionary else {
+                continue
+            }
+            images.append(data["imageURL"] as? String ?? "")
+        }
+        
+        let newShopItems = ShopItem(mainImage: images[0],
                                     name: shopItems["name"] as? String ?? "",
                                     price: Int(Double(shopItems["price"] as? String ?? "")!),
                                     id: id,
-                                    sortOrder: Int(shopItems["sortOrder"] as? String ?? "") ?? 999)
+                                    sortOrder: Int(shopItems["sortOrder"] as? String ?? "") ?? 999,
+                                    productImages: images,
+                                    description: shopItems["description"] as? String ?? "")
         DataNow.shared.addShopItem(shopItem: newShopItems)
     }
             

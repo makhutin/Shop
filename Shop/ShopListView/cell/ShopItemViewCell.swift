@@ -15,6 +15,7 @@ class ShopItemViewCell: UICollectionViewCell, InterfaceIsDark {
     private let price = UILabel()
     private let button = UIButton()
     private let indicator = UIActivityIndicatorView()
+    var selfIndex = 0
     
     var intefaceIsDark: Bool { return traitCollection.userInterfaceStyle == .dark }
     

@@ -32,6 +32,8 @@ struct ShopItem {
     let price: Int?
     let id: String
     let sortOrder: Int
+    let productImages: [String]
+    let description: String
 }
 
 

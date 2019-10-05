@@ -26,7 +26,10 @@ class ShopListViewController: UIViewController, InterfaceIsDark {
         
         self.view.backgroundColor = intefaceIsDark ? .black : .white
         self.collectionView.backgroundColor = self.view.backgroundColor
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = false
     }
     
     private func flowLayoutInit() {
@@ -55,8 +58,13 @@ class ShopListViewController: UIViewController, InterfaceIsDark {
         self.collectionView.reloadData()
     }
     
-    private func goToCartItem() {
+    private func goToCartItem(sender: ShopItemViewCell) {
         let vc = CartItemController()
+        let itemData = data[sender.selfIndex]
+        vc.nameData = itemData.name
+        vc.priceData = String(itemData.price!)
+        vc.descriptionData = itemData.description
+        vc.imageUrl = itemData.productImages
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -80,6 +88,7 @@ extension ShopListViewController: UICollectionViewDelegate,UICollectionViewDataS
         // Configure the cell
         let cellData = data[indexPath.item]
         
+        cell.selfIndex = indexPath.item
         cell.setName(name: cellData.name)
         cell.setPrice(price: "\(cellData.price!) ₽")
         cell.setPicture(url: cellData.mainImage)
@@ -99,10 +108,10 @@ extension ShopListViewController: UICollectionViewDelegate,UICollectionViewDataS
             cell.backgroundColor = .gray
             cell.layer.cornerRadius = cell.frame.width / 16
             UIView.animate(withDuration: 0.2, animations: {
-                cell.backgroundColor = .white
+                cell.backgroundColor = self.intefaceIsDark ? .black : .white
             })
+            goToCartItem(sender: cell as! ShopItemViewCell)
         }
-        goToCartItem()
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

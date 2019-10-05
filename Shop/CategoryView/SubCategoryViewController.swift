@@ -21,6 +21,10 @@ class SubCategoryViewController: UITableViewController {
 
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = false
+    }
+    
     private func goToItems(id: Int,complite: @escaping () -> Void ) {
         DataNow.shared.clearShopList()
         let vc = ShopListViewController()
