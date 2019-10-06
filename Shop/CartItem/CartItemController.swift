@@ -12,8 +12,11 @@ class CartItemController: UIViewController, InterfaceIsDark {
     
     var intefaceIsDark: Bool { return traitCollection.userInterfaceStyle == .dark }
     
+    var id =  ""
+    var subId = 0
     var descriptionData = ""
     var nameData = ""
+    var piceIntData = 0
     var priceData = "" {
         didSet {
             if priceData.count > 3 {
@@ -40,6 +43,7 @@ class CartItemController: UIViewController, InterfaceIsDark {
     private let lineGray = UIView()
     private var sizeView = SizeView()
     private let backgroundForSizeView = UIView()
+    private let countCart = CountCartItems()
     
     private let priceStack = UIStackView()
     private let price = UILabel()
@@ -62,6 +66,7 @@ class CartItemController: UIViewController, InterfaceIsDark {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = true
+        self.navigationController?.navigationBar.topItem?.leftBarButtonItem = nil
         mainScrollViewInit()
         imagesInit()
         nameInit()
@@ -125,8 +130,14 @@ class CartItemController: UIViewController, InterfaceIsDark {
             //backButton
             backButton.topAnchor.constraint(equalTo: mainView.topAnchor, constant: hasNoth ? 4 : statusBarHeight + 8),
             backButton.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 10),
-            backButton.widthAnchor.constraint(equalToConstant: 28),
-            backButton.heightAnchor.constraint(equalToConstant: 28),
+            backButton.widthAnchor.constraint(equalToConstant: 35),
+            backButton.heightAnchor.constraint(equalToConstant: 35),
+            //countCart
+            countCart.widthAnchor.constraint(equalToConstant: 35),
+            countCart.heightAnchor.constraint(equalToConstant: 35),
+            countCart.topAnchor.constraint(equalTo: mainView.topAnchor, constant: hasNoth ? 4 : statusBarHeight + 8),
+            countCart.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -10),
+            
             
         ])
     }
@@ -183,10 +194,18 @@ class CartItemController: UIViewController, InterfaceIsDark {
     
     
     private func toBouyListButtonInit() {
+        mainView.addSubview(countCart)
         mainView.addSubview(toBuyList)
+        
+        countCart.translatesAutoresizingMaskIntoConstraints = false
+        DataNow.shared.loadCartItems()
+        let count = DataNow.shared.cartItem.count
+        countCart.updateLabel(number: count )
         toBuyList.translatesAutoresizingMaskIntoConstraints = false
         toBuyList.addTarget(self, action: #selector(goToBuyList), for: .touchUpInside)
-        toBuyList.setImage(UIImage(named: "BuyButton"), for: .normal)
+        toBuyList.setImage(UIImage(), for: .normal)
+        toBuyList.contentVerticalAlignment = .fill
+        toBuyList.contentHorizontalAlignment = .fill
     }
     
     private func abouItemInit() {
@@ -270,6 +289,7 @@ class CartItemController: UIViewController, InterfaceIsDark {
     
     
     @objc private func goToBuyList() {
+        self.navigationController?.popToRootViewController(animated: true)
         
     }
     
@@ -320,7 +340,10 @@ class CartItemController: UIViewController, InterfaceIsDark {
 
 extension CartItemController: SizeViewDelegate {
     func sizeIsChoice(size: [String:String]) {
-        print(size)
+        DataNow.shared.saveCartItem(imageUrl: imageUrl.first ?? "", buyId: Int(size["productOfferID"] ?? "") ?? 0, id: id, size: size["size"] ?? "", subId: String(subId), price: piceIntData)
+        DataNow.shared.loadCartItems()
+        let count = DataNow.shared.cartItem.count
+        countCart.updateLabel(number: count )
         UIView.animate(withDuration: 0.3, animations: {
             self.sizeView.frame.origin = CGPoint(x: self.sizeView.frame.width, y: -self.sizeView.frame.height)
             self.backgroundForSizeView.layer.opacity = 0

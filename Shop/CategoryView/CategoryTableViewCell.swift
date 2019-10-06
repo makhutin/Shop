@@ -31,7 +31,7 @@ class CategoryTableViewCell: UITableViewCell, InterfaceIsDark {
         // Configure the view for the selected state
     }
     override func didMoveToSuperview() {
-        label.font = UIFont(name: "Sfpro", size: 16)
+        label.font = UIFont.systemFont(ofSize: 16)
         label.textAlignment = .center
         picture.contentMode = .scaleAspectFit
         for elem in [picture,label,indicator,loading] {

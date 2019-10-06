@@ -15,7 +15,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var navigationController: UINavigationController?
     let tabBarController = MainViewController()
     let tabViewController1 = CategoryViewController()
-    let tabViewController2 = CartItemController()
+    let tabViewController2 = CartViewController()
     
 
 
@@ -27,8 +27,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             
-            tabViewController1.tabBarItem = UITabBarItem(title: "Category", image: nil, tag: 0)
-            tabViewController2.tabBarItem = UITabBarItem(title: "Category", image: nil, tag: 1)
+            tabViewController1.tabBarItem = UITabBarItem(title: "Категории", image: nil, tag: 0)
+            tabViewController2.tabBarItem = UITabBarItem(title: "Корзина", image: nil, tag: 1)
             let controllers = [tabViewController1,tabViewController2]
             tabBarController.viewControllers = controllers
             navigationController = UINavigationController(rootViewController: tabBarController)

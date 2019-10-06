@@ -16,10 +16,28 @@ class CategoryDataCount: Object {
 }
 
 class DataImage: Object {
-    @objc dynamic var url:Int = 0
+    @objc dynamic var url: Int = 0
     @objc dynamic var data: Data = Data()
     @objc dynamic var date: Date = Date()
     @objc dynamic var notSourse: Bool = false
+}
+
+class SaveItem: Object {
+    @objc dynamic var imageUrl: String = ""
+    @objc dynamic var buyId: Int = 0
+    @objc dynamic var id: String = ""
+    @objc dynamic var size: String = ""
+    @objc dynamic var subId: String = ""
+    @objc dynamic var price: Int = 0
+    convenience init(imageUrl: String, buyId: Int, id: String, size: String, subId: String, price: Int) {
+        self.init()
+        self.imageUrl = imageUrl
+        self.buyId = buyId
+        self.id = id
+        self.size = size
+        self.price = price
+        self.subId = subId
+    }
 }
 /**
 Data load, save
@@ -32,6 +50,39 @@ class PersistanceData {
     
     //of days
     private let updateTimeForImage = 3
+    
+    func deleteItemFromCart(buyId: Int) {
+        let oldData = realm.objects(SaveItem.self).filter("buyId = \(buyId)")
+        try! realm.write {
+            if let data = oldData.first {
+                realm.delete(data)
+            }
+        }
+    }
+    
+    func deleAllItemsForCart() {
+        let oldData = realm.objects(SaveItem.self)
+        try! realm.write {
+            for elem in oldData {
+                realm.delete(elem)
+            }
+        }
+    }
+    
+    func saveToCart(data: SaveItem) {
+        try! realm.write {
+            realm.add(data)
+        }
+    }
+    
+    func loadCartItem() -> [SaveItem] {
+        let data = realm.objects(SaveItem.self)
+        var newData = [SaveItem]()
+        for elem in data {
+            newData.append(SaveItem(imageUrl: elem.imageUrl, buyId: elem.buyId, id: elem.id, size: elem.size,subId: elem.subId, price: elem.price))
+        }
+        return newData
+    }
     
     func saveImage(image: UIImage,url: String) {
         let oldData = realm.objects(DataImage.self).filter("url = \(url.djb2hash)")

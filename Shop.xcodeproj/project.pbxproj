@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7876C0912349E85100664E3F /* ItemInCartCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7876C0902349E85100664E3F /* ItemInCartCell.swift */; };
 		789D675D2343418700139F80 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789D675C2343418700139F80 /* AppDelegate.swift */; };
 		789D675F2343418700139F80 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789D675E2343418700139F80 /* SceneDelegate.swift */; };
 		789D67662343418700139F80 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 789D67652343418700139F80 /* Assets.xcassets */; };
@@ -26,9 +27,13 @@
 		78A5B3092347D88900DB52BD /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 78A5B3082347D62100DB52BD /* Roboto-Regular.ttf */; };
 		78A5B30B23493FBB00DB52BD /* CustomPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A5B30A23493FBB00DB52BD /* CustomPageControl.swift */; };
 		78A5B30D2349D13D00DB52BD /* SizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A5B30C2349D13D00DB52BD /* SizeView.swift */; };
+		78A5B3102349E6C300DB52BD /* CartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A5B30F2349E6C300DB52BD /* CartViewController.swift */; };
+		78CB7070234A04F500199E78 /* CountCartItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CB706F234A04F500199E78 /* CountCartItems.swift */; };
+		78CB7074234A446F00199E78 /* DelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CB7073234A446F00199E78 /* DelView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7876C0902349E85100664E3F /* ItemInCartCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemInCartCell.swift; sourceTree = "<group>"; };
 		789D67592343418700139F80 /* Shop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Shop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		789D675C2343418700139F80 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		789D675E2343418700139F80 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -50,6 +55,9 @@
 		78A5B3082347D62100DB52BD /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Regular.ttf"; path = "../../../../../../Downloads/Roboto-2/Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		78A5B30A23493FBB00DB52BD /* CustomPageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPageControl.swift; sourceTree = "<group>"; };
 		78A5B30C2349D13D00DB52BD /* SizeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizeView.swift; sourceTree = "<group>"; };
+		78A5B30F2349E6C300DB52BD /* CartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartViewController.swift; sourceTree = "<group>"; };
+		78CB706F234A04F500199E78 /* CountCartItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountCartItems.swift; sourceTree = "<group>"; };
+		78CB7073234A446F00199E78 /* DelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DelView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +71,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7876C0922349E85500664E3F /* Cart */ = {
+			isa = PBXGroup;
+			children = (
+				78CB7073234A446F00199E78 /* DelView.swift */,
+				78A5B30F2349E6C300DB52BD /* CartViewController.swift */,
+				7876C0902349E85100664E3F /* ItemInCartCell.swift */,
+			);
+			path = Cart;
+			sourceTree = "<group>";
+		};
 		789D67502343418700139F80 = {
 			isa = PBXGroup;
 			children = (
@@ -83,12 +101,13 @@
 			isa = PBXGroup;
 			children = (
 				789D677C2343783A00139F80 /* MainViewController.swift */,
+				7876C0922349E85500664E3F /* Cart */,
 				78A5B30E2349E52A00DB52BD /* CartItem */,
 				789D6782234387BC00139F80 /* CategoryView */,
 				789D67872344767200139F80 /* ShopListView */,
-				789D675C2343418700139F80 /* AppDelegate.swift */,
 				789D67A32344E15B00139F80 /* data */,
 				789D675E2343418700139F80 /* SceneDelegate.swift */,
+				789D675C2343418700139F80 /* AppDelegate.swift */,
 				789D67652343418700139F80 /* Assets.xcassets */,
 				789D67672343418700139F80 /* LaunchScreen.storyboard */,
 				789D676A2343418700139F80 /* Info.plist */,
@@ -150,6 +169,7 @@
 				789D67C92347777A00139F80 /* CartItemController.swift */,
 				78A5B30C2349D13D00DB52BD /* SizeView.swift */,
 				78A5B30A23493FBB00DB52BD /* CustomPageControl.swift */,
+				78CB706F234A04F500199E78 /* CountCartItems.swift */,
 			);
 			path = CartItem;
 			sourceTree = "<group>";
@@ -254,6 +274,8 @@
 				789D67A22344E15700139F80 /* DataNow.swift in Sources */,
 				789D678123437A7600139F80 /* CategoryTableViewCell.swift in Sources */,
 				78A5B30D2349D13D00DB52BD /* SizeView.swift in Sources */,
+				78CB7070234A04F500199E78 /* CountCartItems.swift in Sources */,
+				7876C0912349E85100664E3F /* ItemInCartCell.swift in Sources */,
 				789D675D2343418700139F80 /* AppDelegate.swift in Sources */,
 				789D678423438D3A00139F80 /* ShopListViewController.swift in Sources */,
 				789D67A02344D88700139F80 /* PersistanceData.swift in Sources */,
@@ -262,7 +284,9 @@
 				789D678623438F9400139F80 /* ShopItemViewCell.swift in Sources */,
 				789D679E2344CCF600139F80 /* DataLoader.swift in Sources */,
 				789D677F2343785500139F80 /* CategoryViewController.swift in Sources */,
+				78A5B3102349E6C300DB52BD /* CartViewController.swift in Sources */,
 				78A5B30B23493FBB00DB52BD /* CustomPageControl.swift in Sources */,
+				78CB7074234A446F00199E78 /* DelView.swift in Sources */,
 				789D675F2343418700139F80 /* SceneDelegate.swift in Sources */,
 				789D677D2343783A00139F80 /* MainViewController.swift in Sources */,
 			);

@@ -17,6 +17,10 @@ class ShopListViewController: UIViewController, InterfaceIsDark {
     let reuseIdentifier = "cell"
     var data: [ShopItem] = []
     var currentData = 8
+    private var sizeView = SizeView()
+    private let backgroundForSizeView = UIView()
+    var currentPressIndex = 0
+    var idCat = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +35,8 @@ class ShopListViewController: UIViewController, InterfaceIsDark {
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = false
     }
+    
+    
     
     private func flowLayoutInit() {
         let flowLayout = UICollectionViewFlowLayout()
@@ -63,10 +69,26 @@ class ShopListViewController: UIViewController, InterfaceIsDark {
         let itemData = data[sender.selfIndex]
         vc.nameData = itemData.name
         vc.priceData = String(itemData.price!)
+        vc.piceIntData = itemData.price!
         vc.descriptionData = itemData.description
         vc.imageUrl = itemData.productImages
         vc.sizeDataForItem = itemData.offers
+        vc.id = itemData.id
+        vc.subId = idCat
+
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.sizeView.frame.origin = CGPoint(x: 0, y: self.view.frame.height)
+            self.backgroundForSizeView.layer.opacity = 0
+            self.backgroundForSizeView.layoutIfNeeded()
+        }, completion: { comlition in
+            self.backgroundForSizeView.removeFromSuperview()
+            self.sizeView.removeFromSuperview()
+        })
+        
     }
     
 }
@@ -89,6 +111,7 @@ extension ShopListViewController: UICollectionViewDelegate,UICollectionViewDataS
         // Configure the cell
         let cellData = data[indexPath.item]
         
+        cell.delegate = self
         cell.selfIndex = indexPath.item
         cell.setName(name: cellData.name)
         cell.setPrice(price: "\(cellData.price!) ₽")
@@ -124,4 +147,57 @@ extension ShopListViewController: UICollectionViewDelegate,UICollectionViewDataS
             collectionView.reloadData()
         }
     }
+}
+
+extension ShopListViewController: SizeViewDelegate {
+    func sizeIsChoice(size: [String : String]) {
+        DataNow.shared.saveCartItem(imageUrl: data[currentPressIndex].mainImage,
+                                    buyId: Int(size["productOfferID"] ?? "") ?? 0,
+                                    id: data[currentPressIndex].id,
+                                    size: size["size"] ?? "",
+                                    subId: String(idCat),
+                                    price: data[currentPressIndex].price ?? 0)
+        DataNow.shared.loadCartItems()
+        UIView.animate(withDuration: 0.3, animations: {
+            self.sizeView.frame.origin = CGPoint(x: self.sizeView.frame.width, y: -self.sizeView.frame.height)
+            self.backgroundForSizeView.layer.opacity = 0
+            self.backgroundForSizeView.layoutIfNeeded()
+        }, completion: { comlition in
+            self.backgroundForSizeView.removeFromSuperview()
+            self.sizeView.removeFromSuperview()
+        })
+    }
+    
+    
+}
+
+extension ShopListViewController: ShopItemViewCellDelegate {
+    func pressBuy(index: Int) {
+        buyItem(index: index)
+    }
+    
+    private func buyItem(index: Int) {
+        let view = backgroundForSizeView
+        sizeView = SizeView()
+        self.backgroundForSizeView.layer.opacity = 0
+        view.frame = self.view.frame
+        let color: UIColor = (intefaceIsDark ? .white : .black)
+        view.backgroundColor = color.withAlphaComponent(0.5)
+        self.view.addSubview(view)
+        let itemData = data[index]
+        sizeView.sizeData = itemData.offers
+        sizeView.delegate = self
+        sizeView.frame.size = CGSize(width: view.frame.width, height: view.frame.height)
+        sizeView.loadSizes()
+        sizeView.frame = CGRect(x: 0, y: self.view.frame.height, width: self.view.frame.width, height: sizeView.frame.height)
+        UIView.animate(withDuration: 0.3, animations: {
+            self.backgroundForSizeView.layer.opacity = 1
+            self.sizeView.frame.origin = CGPoint(x: 0, y: self.view.frame.height - self.sizeView.frame.height)
+        })
+        view.addSubview(sizeView)
+    }
+    
+    
+    
+    
 }

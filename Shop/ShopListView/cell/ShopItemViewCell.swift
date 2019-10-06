@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol ShopItemViewCellDelegate {
+    func pressBuy(index: Int)
+}
+
 class ShopItemViewCell: UICollectionViewCell, InterfaceIsDark {
     
     private let pic = ImageShopItemCell()
@@ -16,6 +20,8 @@ class ShopItemViewCell: UICollectionViewCell, InterfaceIsDark {
     private let button = UIButton()
     private let indicator = UIActivityIndicatorView()
     var selfIndex = 0
+    
+    var delegate: ShopItemViewCellDelegate?
     
     var intefaceIsDark: Bool { return traitCollection.userInterfaceStyle == .dark }
     
@@ -64,6 +70,11 @@ class ShopItemViewCell: UICollectionViewCell, InterfaceIsDark {
         button.titleLabel?.font = UIFont(name: "Roboto", size: 8)
         button.layer.cornerRadius = 5
         button.backgroundColor = UIColor(displayP3Red: 247/255, green: 60/255, blue: 104/255, alpha: 0.85)
+        button.addTarget(self, action: #selector(press), for: .touchUpInside)
+    }
+    
+    @objc private func press() {
+        delegate?.pressBuy(index: selfIndex)
     }
     
     private func nameInit() {

@@ -64,6 +64,7 @@ class DataNow {
     private var category: [Category] = []
     private var subCategory: [SubCategory] = []
     private var shopItems: [ShopItem] = []
+    var cartItem: [SaveItem] = []
     
     func addCategory(category: Category) {
         let newArray = self.category.filter { $0.id == category.id }
@@ -73,6 +74,24 @@ class DataNow {
     
     func loadCategory() -> [Category] {
         return category
+    }
+    
+    func loadCartItems() {
+        cartItem = []
+        let data = PersistanceData.shared.loadCartItem()
+        cartItem = data
+    }
+    
+    func saveCartItem(imageUrl: String, buyId: Int, id: String, size: String, subId: String, price: Int) {
+        PersistanceData.shared.saveToCart(data: SaveItem(imageUrl: imageUrl, buyId: buyId, id: id, size: size, subId: subId, price: price))
+    }
+    
+    func deleteItemFromCart(buyId: Int) {
+        PersistanceData.shared.deleteItemFromCart(buyId: buyId)
+    }
+    
+    func deleteAllItemsFromCart() {
+        PersistanceData.shared.deleAllItemsForCart()
     }
     
     func addSubCategory(subCategory: SubCategory) {

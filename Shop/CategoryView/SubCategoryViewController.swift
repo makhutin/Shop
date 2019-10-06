@@ -29,6 +29,7 @@ class SubCategoryViewController: UITableViewController {
         DataNow.shared.clearShopList()
         let vc = ShopListViewController()
         DataLoader.shared.loadShopItems(id: id, complete: {
+            vc.idCat = id
             vc.data = DataNow.shared.loadShopList()
             vc.data.sort { (elem1, elem2) -> Bool in
                 return elem1.sortOrder < elem2.sortOrder

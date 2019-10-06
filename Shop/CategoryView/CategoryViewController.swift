@@ -23,6 +23,7 @@ class CategoryViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         loadData()
         self.navigationController?.isNavigationBarHidden = true
+        self.navigationController?.navigationBar.topItem?.title = "Категории"
     }
     
     func loadData() {
@@ -41,6 +42,7 @@ class CategoryViewController: UITableViewController {
         vc.data.sort { (elem1, elem2) -> Bool in
             return elem1.sortOrder < elem2.sortOrder
         }
+        
         self.navigationController?.pushViewController(vc, animated: true)
     }
 
