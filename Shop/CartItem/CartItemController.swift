@@ -289,7 +289,16 @@ class CartItemController: UIViewController, InterfaceIsDark {
     
     
     @objc private func goToBuyList() {
+        let data = self.navigationController?.viewControllers
+        if let data = data {
+            if let vc = data.first as? MainViewController {
+                vc.selectedIndex = 1
+            }
+        }
         self.navigationController?.popToRootViewController(animated: true)
+       
+            
+        
         
     }
     
