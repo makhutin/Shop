@@ -25,6 +25,7 @@
 		789D67CA2347777A00139F80 /* CartItemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789D67C92347777A00139F80 /* CartItemController.swift */; };
 		78A5B3092347D88900DB52BD /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 78A5B3082347D62100DB52BD /* Roboto-Regular.ttf */; };
 		78A5B30B23493FBB00DB52BD /* CustomPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A5B30A23493FBB00DB52BD /* CustomPageControl.swift */; };
+		78A5B30D2349D13D00DB52BD /* SizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A5B30C2349D13D00DB52BD /* SizeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 		789D67C92347777A00139F80 /* CartItemController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartItemController.swift; sourceTree = "<group>"; };
 		78A5B3082347D62100DB52BD /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Regular.ttf"; path = "../../../../../../Downloads/Roboto-2/Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		78A5B30A23493FBB00DB52BD /* CustomPageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPageControl.swift; sourceTree = "<group>"; };
+		78A5B30C2349D13D00DB52BD /* SizeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,8 +83,7 @@
 			isa = PBXGroup;
 			children = (
 				789D677C2343783A00139F80 /* MainViewController.swift */,
-				789D67C92347777A00139F80 /* CartItemController.swift */,
-				78A5B30A23493FBB00DB52BD /* CustomPageControl.swift */,
+				78A5B30E2349E52A00DB52BD /* CartItem */,
 				789D6782234387BC00139F80 /* CategoryView */,
 				789D67872344767200139F80 /* ShopListView */,
 				789D675C2343418700139F80 /* AppDelegate.swift */,
@@ -141,6 +142,16 @@
 				789D678523438F9400139F80 /* ShopItemViewCell.swift */,
 			);
 			path = cell;
+			sourceTree = "<group>";
+		};
+		78A5B30E2349E52A00DB52BD /* CartItem */ = {
+			isa = PBXGroup;
+			children = (
+				789D67C92347777A00139F80 /* CartItemController.swift */,
+				78A5B30C2349D13D00DB52BD /* SizeView.swift */,
+				78A5B30A23493FBB00DB52BD /* CustomPageControl.swift */,
+			);
+			path = CartItem;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -242,6 +253,7 @@
 				789D67CA2347777A00139F80 /* CartItemController.swift in Sources */,
 				789D67A22344E15700139F80 /* DataNow.swift in Sources */,
 				789D678123437A7600139F80 /* CategoryTableViewCell.swift in Sources */,
+				78A5B30D2349D13D00DB52BD /* SizeView.swift in Sources */,
 				789D675D2343418700139F80 /* AppDelegate.swift in Sources */,
 				789D678423438D3A00139F80 /* ShopListViewController.swift in Sources */,
 				789D67A02344D88700139F80 /* PersistanceData.swift in Sources */,

@@ -10,8 +10,6 @@ import UIKit
 
 class CustomPageControl: UIPageControl {
 
-    var otherPagesImage = UIImage(named: "Page")!
-
 override var numberOfPages: Int {
     didSet {
         updateDots()

@@ -117,10 +117,18 @@ extension DataLoader {
         images.append(shopItems["mainImage"] as? String ?? "")
         guard let productsImage = shopItems["productImages"] as? NSArray else { return }
         for elem in productsImage {
-            guard let data = elem as? NSDictionary else {
-                continue
-            }
+            guard let data = elem as? NSDictionary else { continue }
             images.append(data["imageURL"] as? String ?? "")
+        }
+        
+        var offers = [[String:String]]()
+        guard let offersData = shopItems["offers"] as? NSArray else { return }
+        for elem in offersData {
+            guard let data = elem as? NSDictionary else { continue }
+            offers.append(["size": data["size"] as? String ?? "",
+                           "productOfferID": data["productOfferID"] as? String ?? "",
+                           "quantity": data["quantity"] as? String ?? ""
+            ])
         }
         
         let newShopItems = ShopItem(mainImage: images[0],
@@ -129,7 +137,8 @@ extension DataLoader {
                                     id: id,
                                     sortOrder: Int(shopItems["sortOrder"] as? String ?? "") ?? 999,
                                     productImages: images,
-                                    description: shopItems["description"] as? String ?? "")
+                                    description: shopItems["description"] as? String ?? "",
+                                    offers: offers)
         DataNow.shared.addShopItem(shopItem: newShopItems)
     }
             

@@ -26,6 +26,7 @@ class CartItemController: UIViewController, InterfaceIsDark {
         }
     }
     var imageUrl = [String]()
+    var sizeDataForItem = [[String:String]]()
     
     private let mainScrollView = UIScrollView()
     private let mainView = UIView()
@@ -37,6 +38,8 @@ class CartItemController: UIViewController, InterfaceIsDark {
     private let toBuyList = UIButton()
     private let pageControl = CustomPageControl()
     private let lineGray = UIView()
+    private var sizeView = SizeView()
+    private let backgroundForSizeView = UIView()
     
     private let priceStack = UIStackView()
     private let price = UILabel()
@@ -197,6 +200,7 @@ class CartItemController: UIViewController, InterfaceIsDark {
     private func buttonInit() {
         mainView.addSubview(buyButton)
         buyButton.translatesAutoresizingMaskIntoConstraints = false
+        buyButton.addTarget(self, action: #selector(buyItem), for: .touchUpInside)
         buyButton.backgroundColor = UIColor(displayP3Red: 0/255, green: 122/255, blue: 255/255, alpha: 1)
         buyButton.layer.cornerRadius = 48 / 4
         buyButton.setTitle("Добавить в корзину", for: .normal)
@@ -278,8 +282,56 @@ class CartItemController: UIViewController, InterfaceIsDark {
         
     }
     
+    @objc private func buyItem() {
+        let view = backgroundForSizeView
+        sizeView = SizeView()
+        self.backgroundForSizeView.layer.opacity = 0
+        view.frame = self.view.frame
+        let color: UIColor = (intefaceIsDark ? .white : .black)
+        view.backgroundColor = color.withAlphaComponent(0.5)
+        self.view.addSubview(view)
+        sizeView.sizeData = sizeDataForItem
+        sizeView.delegate = self
+        sizeView.frame.size = CGSize(width: view.frame.width, height: view.frame.height)
+        sizeView.loadSizes()
+        sizeView.frame = CGRect(x: 0, y: self.view.frame.height, width: self.view.frame.width, height: sizeView.frame.height)
+        UIView.animate(withDuration: 0.3, animations: {
+            self.backgroundForSizeView.layer.opacity = 1
+            self.sizeView.frame.origin = CGPoint(x: 0, y: self.view.frame.height - self.sizeView.frame.height)
+        })
+        view.addSubview(sizeView)
+        
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.sizeView.frame.origin = CGPoint(x: 0, y: self.view.frame.height)
+            self.backgroundForSizeView.layer.opacity = 0
+            self.backgroundForSizeView.layoutIfNeeded()
+        }, completion: { comlition in
+            self.backgroundForSizeView.removeFromSuperview()
+            self.sizeView.removeFromSuperview()
+        })
+        
+    }
     
 
+}
+
+extension CartItemController: SizeViewDelegate {
+    func sizeIsChoice(size: [String:String]) {
+        print(size)
+        UIView.animate(withDuration: 0.3, animations: {
+            self.sizeView.frame.origin = CGPoint(x: self.sizeView.frame.width, y: -self.sizeView.frame.height)
+            self.backgroundForSizeView.layer.opacity = 0
+            self.backgroundForSizeView.layoutIfNeeded()
+        }, completion: { comlition in
+            self.backgroundForSizeView.removeFromSuperview()
+            self.sizeView.removeFromSuperview()
+        })
+    }
+    
+    
 }
 
 extension CartItemController: UIScrollViewDelegate {

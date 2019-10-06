@@ -65,6 +65,7 @@ class ShopListViewController: UIViewController, InterfaceIsDark {
         vc.priceData = String(itemData.price!)
         vc.descriptionData = itemData.description
         vc.imageUrl = itemData.productImages
+        vc.sizeDataForItem = itemData.offers
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
