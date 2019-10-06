@@ -44,6 +44,7 @@ class CartItemController: UIViewController, InterfaceIsDark {
     private var sizeView = SizeView()
     private let backgroundForSizeView = UIView()
     private let countCart = CountCartItems()
+    private let indi = UIActivityIndicatorView()
     
     private let priceStack = UIStackView()
     private let price = UILabel()
@@ -137,6 +138,9 @@ class CartItemController: UIViewController, InterfaceIsDark {
             countCart.heightAnchor.constraint(equalToConstant: 35),
             countCart.topAnchor.constraint(equalTo: mainView.topAnchor, constant: hasNoth ? 4 : statusBarHeight + 8),
             countCart.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -10),
+            //indi
+            indi.centerXAnchor.constraint(equalTo: images.centerXAnchor),
+            indi.centerYAnchor.constraint(equalTo: images.centerYAnchor),
             
             
         ])
@@ -159,6 +163,8 @@ class CartItemController: UIViewController, InterfaceIsDark {
             imageView.frame = CGRect(x: x, y: 0, width: images.bounds.width, height: images.bounds.height)
             loadPicture(url: elem, complite: {
                 image in
+                self.indi.startAnimating()
+                self.indi.isHidden = true
                 imageView.picView.image = image
                 imageView.clipsToBounds = true
                 indicator.removeFromSuperview()
@@ -272,6 +278,9 @@ class CartItemController: UIViewController, InterfaceIsDark {
     
     private func imagesInit() {
         mainView.addSubview(images)
+        images.addSubview(indi)
+        indi.translatesAutoresizingMaskIntoConstraints = false
+        indi.startAnimating()
         images.delegate = self
         pageControlInit()
         pageControl.currentPage = 0
